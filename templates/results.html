@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindWell Assessment | Results</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      /* Base Styling */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f0f9ff;
+        color: #1e3a8a;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1e3a8a;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .home-button {
+        padding: 0.5rem 1rem;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .home-button:hover {
+        background-color: #2563eb;
+      }
+
+      /* Container */
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Results Section */
+      .results-container {
+        padding: 1.5rem;
+        background-color: #f8fafc;
+        border-radius: 10px;
+      }
+
+      .results-title {
+        font-size: 1.5rem;
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .result-card {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .result-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .result-label {
+        font-weight: bold;
+        color: #1e3a8a;
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .result-value {
+        color: #3b82f6;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .result-score {
+        color: #64748b;
+        font-size: 0.9rem;
+      }
+
+      /* Severity Ranges Table */
+      .severity-table-container {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background-color: #f8fafc;
+        border-radius: 10px;
+      }
+
+      .severity-title {
+        font-size: 1.2rem;
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .severity-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .severity-table th,
+      .severity-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .severity-table th {
+        background-color: #3b82f6;
+        color: white;
+        font-weight: 500;
+      }
+
+      .severity-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .severity-table tr:hover {
+        background-color: #f1f5f9;
+      }
+
+      .severity-table td:first-child {
+        font-weight: 500;
+        color: #1e3a8a;
+      }
+
+      .severity-table td:not(:first-child) {
+        color: #64748b;
+      }
+
+      /* Recommendations and Future Improvements */
+      .info-section {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background-color: #f8fafc;
+        border-radius: 10px;
+      }
+
+      .info-title {
+        font-size: 1.2rem;
+        color: #1e3a8a;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      .info-text {
+        color: #334155;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      .recommendation {
+        background-color: #fef2f2;
+        border-left: 4px solid #ef4444;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .recommendation-title {
+        color: #991b1b;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .recommendation-text {
+        color: #7f1d1d;
+      }
+
+      .future-improvements {
+        background-color: #f0fdf4;
+        border-left: 4px solid #22c55e;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .future-title {
+        color: #166534;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .future-text {
+        color: #14532d;
+      }
+
+      .loading {
+        text-align: center;
+        color: #3b82f6;
+        margin: 1rem 0;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 480px) {
+        .home-button {
+          padding: 0.5rem;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          justify-content: center;
+        }
+
+        .home-button span {
+          display: none;
+        }
+
+        .home-button i {
+          font-size: 1.1rem;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="/" class="home-button">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <div class="logo">
+        <i class="fas fa-brain"></i>
+        <span>MindWell</span>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+      <div class="results-container">
+        <div class="results-title">Your Assessment Results</div>
+        <div class="loading" id="loading" style="display: none">
+          Processing your responses...
+        </div>
+        <div class="result-card">
+          <div class="result-label">Depression Level</div>
+          <div class="result-value" id="depression-result">-</div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">Anxiety Level</div>
+          <div class="result-value" id="anxiety-result">-</div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">Stress Level</div>
+          <div class="result-value" id="stress-result">-</div>
+        </div>
+      </div>
+
+      <!-- Severity Ranges Table -->
+      <div class="severity-table-container">
+        <div class="severity-title">Severity Ranges for DASS-42</div>
+        <table class="severity-table">
+          <thead>
+            <tr>
+              <th>Severity Level</th>
+              <th>Depression</th>
+              <th>Anxiety</th>
+              <th>Stress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Normal</td>
+              <td>0-9</td>
+              <td>0-7</td>
+              <td>0-14</td>
+            </tr>
+            <tr>
+              <td>Mild</td>
+              <td>10-13</td>
+              <td>8-9</td>
+              <td>15-18</td>
+            </tr>
+            <tr>
+              <td>Moderate</td>
+              <td>14-20</td>
+              <td>10-14</td>
+              <td>19-25</td>
+            </tr>
+            <tr>
+              <td>Severe</td>
+              <td>21-27</td>
+              <td>15-19</td>
+              <td>26-33</td>
+            </tr>
+            <tr>
+              <td>Extremely Severe</td>
+              <td>28+</td>
+              <td>20+</td>
+              <td>34+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Recommendations and Future Improvements -->
+      <div class="info-section">
+        <div class="info-title">Professional Recommendations</div>
+        <div class="info-text">
+          The DASS-42 is a screening tool and not a diagnostic instrument. While
+          it provides valuable insights into your mental health status, it
+          should not replace professional medical advice.
+        </div>
+
+        <div class="recommendation">
+          <div class="recommendation-title">When to Seek Professional Help</div>
+          <div class="recommendation-text">
+            It is recommended to consult with a mental health professional if
+            you score in the following ranges:
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem">
+              <li>Depression: Moderate (14-20) or higher</li>
+              <li>Anxiety: Moderate (10-14) or higher</li>
+              <li>Stress: Moderate (19-25) or higher</li>
+            </ul>
+            Even if your scores are below these ranges, if you're experiencing
+            significant distress or impairment in daily functioning, it's
+            advisable to seek professional support.
+          </div>
+        </div>
+
+        <div class="future-improvements">
+          <div class="future-title">Future Improvements</div>
+          <div class="future-text">
+            This assessment tool is continuously evolving. Future improvements
+            may include:
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem">
+              <li>Integration with professional mental health services</li>
+              <li>Personalized recommendations based on assessment results</li>
+              <li>Progress tracking over time</li>
+              <li>Additional resources and coping strategies</li>
+              <li>Enhanced accuracy through machine learning models</li>
+            </ul>
+            Your feedback and suggestions are valuable in making this tool more
+            effective and user-friendly.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get results from URL parameters
+      window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const results = JSON.parse(
+          decodeURIComponent(urlParams.get('results'))
+        );
+
+        if (results) {
+          document.getElementById(
+            'depression-result'
+          ).innerHTML = `${results.depression}<br><small class="result-score">Score: ${results.scores.depression}</small>`;
+          document.getElementById(
+            'anxiety-result'
+          ).innerHTML = `${results.anxiety}<br><small class="result-score">Score: ${results.scores.anxiety}</small>`;
+          document.getElementById(
+            'stress-result'
+          ).innerHTML = `${results.stress}<br><small class="result-score">Score: ${results.scores.stress}</small>`;
+        }
+      };
+    </script>
+  </body>
+</html>

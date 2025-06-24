@@ -44,6 +44,11 @@ def questionnaire():
     """Render the questionnaire page"""
     return render_template('questionnaire.html')
 
+@app.route('/results')
+def results():
+    """Render the results page"""
+    return render_template('results.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """
@@ -121,15 +126,6 @@ def predict():
                 'error': 'Error during model prediction'
             }), 500
         
-        # Map predictions to severity levels
-        severity_mapping = {
-            0: "Normal",
-            1: "Mild",
-            2: "Moderate",
-            3: "Severe",
-            4: "Extremely Severe"
-        }
-        
         # Calculate scores for each category
         depression_score = sum(int(answers[i-1]) if answers[i-1] is not None else 0 
                              for i in range(3, 42, 3))  # Questions 3, 6, 9, ..., 42
@@ -138,17 +134,55 @@ def predict():
         stress_score = sum(int(answers[i-1]) if answers[i-1] is not None else 0 
                           for i in range(1, 42, 3))     # Questions 1, 4, 7, ..., 40
         
+        def depression_severity(score):
+            """Return severity label for depression score (DASS-42)"""
+            if score <= 9:
+                return "Normal"
+            elif score <= 13:
+                return "Mild"
+            elif score <= 20:
+                return "Moderate"
+            elif score <= 27:
+                return "Severe"
+            else:
+                return "Extremely Severe"
+
+        def anxiety_severity(score):
+            """Return severity label for anxiety score (DASS-42)"""
+            if score <= 7:
+                return "Normal"
+            elif score <= 9:
+                return "Mild"
+            elif score <= 14:
+                return "Moderate"
+            elif score <= 19:
+                return "Severe"
+            else:
+                return "Extremely Severe"
+
+        def stress_severity(score):
+            """Return severity label for stress score (DASS-42)"""
+            if score <= 14:
+                return "Normal"
+            elif score <= 18:
+                return "Mild"
+            elif score <= 25:
+                return "Moderate"
+            elif score <= 33:
+                return "Severe"
+            else:
+                return "Extremely Severe"
+
         result = {
-            'depression': severity_mapping[depression_pred],
-            'anxiety': severity_mapping[anxiety_pred],
-            'stress': severity_mapping[stress_pred],
+            'depression': depression_severity(depression_score),
+            'anxiety': anxiety_severity(anxiety_score),
+            'stress': stress_severity(stress_score),
             'scores': {
                 'depression': depression_score,
                 'anxiety': anxiety_score,
                 'stress': stress_score
             }
         }
-        # comment
         
         return jsonify(result)
         

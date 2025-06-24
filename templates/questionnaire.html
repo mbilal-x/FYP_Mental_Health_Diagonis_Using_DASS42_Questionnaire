@@ -334,7 +334,7 @@
       </div>
 
       <!-- Results Section -->
-      <div class="results-container" id="results-section">
+      <!-- <div class="results-container" id="results-section">
         <div class="results-title">Your Assessment Results</div>
         <div class="loading" id="loading" style="display: none">
           Processing your responses...
@@ -351,7 +351,7 @@
           <div class="result-label">Stress Level</div>
           <div class="result-value" id="stress-result">-</div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Scripts -->
@@ -426,13 +426,7 @@
 
       // Submit answers to backend for prediction
       async function submitAnswers() {
-        const loading = document.getElementById('loading');
-        const resultsSection = document.getElementById('results-section');
-
         try {
-          loading.style.display = 'block';
-          resultsSection.style.display = 'block';
-
           const response = await fetch('/predict', {
             method: 'POST',
             headers: {
@@ -444,23 +438,14 @@
           const result = await response.json();
 
           if (response.ok) {
-            // Update severity levels
-            document.getElementById(
-              'depression-result'
-            ).innerHTML = `${result.depression}<br><small>Score: ${result.scores.depression}</small>`;
-            document.getElementById(
-              'anxiety-result'
-            ).innerHTML = `${result.anxiety}<br><small>Score: ${result.scores.anxiety}</small>`;
-            document.getElementById(
-              'stress-result'
-            ).innerHTML = `${result.stress}<br><small>Score: ${result.scores.stress}</small>`;
+            // Redirect to results page with the results as URL parameters
+            const resultsParam = encodeURIComponent(JSON.stringify(result));
+            window.location.href = `/results?results=${resultsParam}`;
           } else {
             throw new Error(result.error || 'Failed to get prediction');
           }
         } catch (error) {
           alert('Error getting prediction: ' + error.message);
-        } finally {
-          loading.style.display = 'none';
         }
       }
 
